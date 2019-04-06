@@ -5,9 +5,9 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
 ## Getting Started  
 
-- [x] **Installing Genymotion Emulator (Genymotion Guide)**  
+- [x] **Installing Genymotion Emulator**  
 
-- [x] **Architecture of Mobile Apps (Concept Slides)**  
+- [x] **Architecture of Mobile Apps**  
 
 **There are two categories of mobile apps:**  
 1. View heavy data driven  
@@ -70,9 +70,28 @@ In mobile application development, mobile apps tend to adhere to a set of standa
 11. Calendar - visualize dates or events into calendar form
 12. Media Players - Allowing the control of media playback
 
+- [ ] **Effective Java for Android**
+
+- [x] **Debugging Exceptions within your App**
+    The following high-level principles should be applied when faced with an unexpected app behavior during investigation:
+
+    1. **Replicate**. Convince yourself that there is an issue in the code that can be repeatedly reproduced by following the same steps. Before assuming the code is broken, try restarting the emulator, trying the app on a device and/or fully re-building the app.  
+    2. **Reduce**. Try to isolate or reduce the code surrounding the issue and figure out the simplest way to reproduce what’s occurring. Comment out or remove extraneous code that could be complicating the issue.  
+    3. **Research**. If you are running into a major unexpected issue, you are probably not alone. Search Google for the behavior using any descriptive identifiers. Visit the issue tracker for the component you are seeing issues with. Search stackoverflow for posts about the same issue.  
 
 
+    **Debugging Procedure**
+    1. Find the final exception stack trace within the Android Monitor (logcat)
+    2. Identify the exception type, message, and file with line number
+    3. Open the file within your app and find the line number
+    3. Look at the exception type and message to diagnose the problem
+    4. If the problem is not familiar, google around searching for answers
+    5. Make fixes based on the proposed solutions and re-run the app
+    6. Repeat until the crash no longer occurs
 
-
+    **Investigation Methodologies**
+    1. Toasts
+    2. Logging
+    3. Breakpoints
 
 
