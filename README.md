@@ -55,7 +55,6 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     >Mobile apps conisit of MVC + Networking + Hardware  
 
 
-
 - [x] **Mobile Screen Archetypes**  
     In mobile application development, mobile apps tend to adhere to a set of standard screen "archetypes" that appear again and again. There are over a dozen screen archetypes but there are six core archetypes that appear in nearly every app:
 
@@ -167,7 +166,7 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
         An interface can extend several interfaces, similar to the way that a class can extend another class, using the `extends` keyword.  
 
 ## Structure  
-- [ ] Using Context  
+- [x] Using Context  
 A context provide access to information about the application state. It provides Activities, Fragments and Services access to resource files, images and extrnal directory locations. It also enables access to Android's built-in services such as those used for layout inflation, keyboard and finding content providers.  
 
 In many cases when the "context is required", we simply need to pass in the instance of the current activity. In situations where we are inside objects created by the activity such as adapters or fragments, we need to pass in the activity instance into those objects. In situations where we are outside of an activity (in an application or service), we can use the "application" context instead.  
@@ -241,6 +240,15 @@ To avoid memory leaks, never hold a reference to a context beyond its lifecycle.
 
 Use the application context when a context reference is needed beyond the lifespan of a component, or if it should be independent of the lifecycle of the context being passed in.  
 
+- [x] **Android Directory Structure**  
+    1. `src` - Java source files associated with your project. This includes the Activity "controller" files as well as your models and helpers.  
+    2. `res` - Resource files associated with your project. All graphics, strings, layouts, and other resource files are stored in the resource file hierarchy under the res directory.  
+    3. `res/layout` - XML layout files that describe the views and layouts for each activity and for partial views such as list items.  
+    4. `res/values` - XML files which store various attribute values. These include strings.xml, dimens.xml, styles.xml, colors.xml, themes.xml, and so on.  
+    5. `res/drawable` - Here we store the various density-independent graphic assets used in our application.  
+    6. `res/drwable-hdpi` - Series of folders for density specific images to use for various resolutions.  
+    7. `res/mipmap` - most commonly used for application icons.  
+    8. `assets` - Uncompiled source files associated with your project; Rarely used.  
+    9. `libs` - Before the introduction of Gradle build system, this directory was used for any secondary libraries (jars) you might want to link to your app.  
 
     
-
