@@ -167,78 +167,78 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
 ## Structure  
 - [x] Using Context  
-A context provide access to information about the application state. It provides Activities, Fragments and Services access to resource files, images and extrnal directory locations. It also enables access to Android's built-in services such as those used for layout inflation, keyboard and finding content providers.  
+    A context provide access to information about the application state. It provides Activities, Fragments and Services access to resource files, images and extrnal directory locations. It also enables access to Android's built-in services such as those used for layout inflation, keyboard and finding content providers.  
 
-In many cases when the "context is required", we simply need to pass in the instance of the current activity. In situations where we are inside objects created by the activity such as adapters or fragments, we need to pass in the activity instance into those objects. In situations where we are outside of an activity (in an application or service), we can use the "application" context instead.  
+    In many cases when the "context is required", we simply need to pass in the instance of the current activity. In situations where we are inside objects created by the activity such as adapters or fragments, we need to pass in the activity instance into those objects. In situations where we are outside of an activity (in an application or service), we can use the "application" context instead.  
 
-**Context Usage**
-1. **Explicitly starting a component**  
+    **Context Usage**
+    1. **Explicitly starting a component**  
 
-    ```java
-    Intent intent = new Intent(context, MyActivity.class);
-    startActivity(intent);
-    ```
+        ```java
+        Intent intent = new Intent(context, MyActivity.class);
+        startActivity(intent);
+        ```
 
-    When starting a component two pieces of information are required:
-    1. **package name**, which identifies the application that contains the component.
-    2. **fully qualified java class name** for the component.
+        When starting a component two pieces of information are required:
+        1. **package name**, which identifies the application that contains the component.
+        2. **fully qualified java class name** for the component.
 
-    if we are starting an internal component the context could be passed since we could get the package name by `context.getPackageName()`.
+        if we are starting an internal component the context could be passed since we could get the package name by `context.getPackageName()`.
 
-2. **Creating a view**  
-    Contexts contains the following information that views require
-    1. device screen size and dimensions for converting dp,sp to pixels  
-    2. styled attributes
-    3. activity reference for onClick attributes  
+    2. **Creating a view**  
+        Contexts contains the following information that views require
+        1. device screen size and dimensions for converting dp,sp to pixels  
+        2. styled attributes
+        3. activity reference for onClick attributes  
 
-3. **Inflating an  XML layout file**  
-    We use the context to fetch the `LayoutInflater` in order to inflate an XML layout into memory  
-    
+    3. **Inflating an  XML layout file**  
+        We use the context to fetch the `LayoutInflater` in order to inflate an XML layout into memory  
+        
 
-4. **Sending a local broadcast**  
-    We use the context to fetch the `LocalBroadcastManager` when sending out or registering a receiver for a broadcast  
+    4. **Sending a local broadcast**  
+        We use the context to fetch the `LocalBroadcastManager` when sending out or registering a receiver for a broadcast  
 
-5. **Retrieving a System Service**  
-    To send notifications from an application, the NotificationManager system service is required.  
+    5. **Retrieving a System Service**  
+        To send notifications from an application, the NotificationManager system service is required.  
 
-    [list](https://developer.android.com/reference/android/content/Context.html#getSystemService(java.lang.String)) of all the available system services that can be retrieved through a context.  
+        [list](https://developer.android.com/reference/android/content/Context.html#getSystemService(java.lang.String)) of all the available system services that can be retrieved through a context.  
 
-6. **Application vs Activity context**  
-    There is an **Application** Context and an **Activity** Context, which last for the duration of their respective lifecycle. Most Views should be passed an Activity Context in order to gain access to what themes, styles, dimensions should be applied. If no theme is specified explicitly for the Activity, the default is to use the one specified for the application.  
+    6. **Application vs Activity context**  
+        There is an **Application** Context and an **Activity** Context, which last for the duration of their respective lifecycle. Most Views should be passed an Activity Context in order to gain access to what themes, styles, dimensions should be applied. If no theme is specified explicitly for the Activity, the default is to use the one specified for the application.  
 
-    In most cases, you should use the Activity Context. Normally, the keyword `this` in Java references the instance of the class and can be used whenever Context is needed inside an Activity.  
+        In most cases, you should use the Activity Context. Normally, the keyword `this` in Java references the instance of the class and can be used whenever Context is needed inside an Activity.  
 
-7. **Anonymous functions**  
-    When using anonymous functions when implementing listeners, the keyword `this` in Java applies to the most immediate class being declared. In these cases, the outer class `MainActivity` has to be specified to refer to the Activity instance.  
+    7. **Anonymous functions**  
+        When using anonymous functions when implementing listeners, the keyword `this` in Java applies to the most immediate class being declared. In these cases, the outer class `MainActivity` has to be specified to refer to the Activity instance.  
 
-    ```java
-    public class MainActivity extends AppCompatActivity {
+        ```java
+        public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
 
-        TextView tvTest = (TextView) findViewById(R.id.abc);
-        tvTest.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_SHORT).show();
-              }
-          });
+            TextView tvTest = (TextView) findViewById(R.id.abc);
+            tvTest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_SHORT).show();
+                }
+            });
+            }
         }
-    }
-    }
-    ```
+        }
+        ```
 
-8. **Adapters**
-    1. Array Adapter  
-    2. RecyclerView Adapter  
+    8. **Adapters**
+        1. Array Adapter  
+        2. RecyclerView Adapter  
 
-**Avoiding memory leaks**  
-The Application Context is typically used when singleton instances need to be created, such as a custom manager class that requires Context information to gain access to system services but gets reused across multiple Activities. Since retaining a reference to the Activity context would cause memory not to be reclaimed after it is no longer running, it's important to use the Application Context instead.  
+    **Avoiding memory leaks**  
+    The Application Context is typically used when singleton instances need to be created, such as a custom manager class that requires Context information to gain access to system services but gets reused across multiple Activities. Since retaining a reference to the Activity context would cause memory not to be reclaimed after it is no longer running, it's important to use the Application Context instead.  
 
-To avoid memory leaks, never hold a reference to a context beyond its lifecycle. Check any of your background threads, pending handlers, or inner classes that may be holding onto context objects as well.  
+    To avoid memory leaks, never hold a reference to a context beyond its lifecycle. Check any of your background threads, pending handlers, or inner classes that may be holding onto context objects as well.  
 
-Use the application context when a context reference is needed beyond the lifespan of a component, or if it should be independent of the lifecycle of the context being passed in.  
+    Use the application context when a context reference is needed beyond the lifespan of a component, or if it should be independent of the lifecycle of the context being passed in.  
 
 - [x] **Android Directory Structure**  
     1. `src` - Java source files associated with your project. This includes the Activity "controller" files as well as your models and helpers.  
@@ -251,4 +251,47 @@ Use the application context when a context reference is needed beyond the lifesp
     8. `assets` - Uncompiled source files associated with your project; Rarely used.  
     9. `libs` - Before the introduction of Gradle build system, this directory was used for any secondary libraries (jars) you might want to link to your app.  
 
+- [x] **Organizing your Source Files**  
+    Android applications should always be neatly organized with a clear folder structure that makes your code easy to read. In addition, proper naming conventions for code and classes are important to ensure your code is clean and maintainable.  
+
+    **Android Folder Structure**  
     
+    **Organize packages by category**  
+        `com.example.myapp.activities` - contains all activities.  
+        `com.example.myapp.adapters` - contains all custom adapters.  
+        `com.example.myapp.models` - contains all our data models.  
+        `com.example.myapp.network` - contains all networking code.  
+        `com.example.myapp.fragments` - contains all fragments.  
+        `com.example.myapp.utils` - contains all helper supporting code.  
+        `com.example.myapp.interfaces` contains all interfaces.  
+
+- [x] **Architecture of Android Apps**  
+    When first building Android apps, many developers might start by relying on Model View Controller (MVC) patterns and usually end up writing most of the core business logic in activities or fragments. The challenge is that writing tests that can validate the app's behavior is difficult to do because the code is often so closely tied to the Android framework and the various lifecycle events.  
+
+    **Architectural Patterns**  
+    1. **Standard Android**  
+        `MVC` Model-View-Controller, the default approach with layout files. Activities and Fragments acting as the controller and models used for data and persistence. MVC allows the activities to process the data and update the views, so they act as a controller with some extra responsibilites that should be part of the view. Thus Activities and Fragments can become very large and very difficult to test.  
+
+    2. **Clean Architecture**  
+        `MVP` Model-View-Presenter allows Activities and Fragments to become part of the view layer and delegate most of the work to presenter objects. Each activity has a matching presenter that handles all the access to the model. The presenters also notify the Activities when the data is ready to display.  
+
+    3. **Data-binding MVVM**  
+        `MVVM` Model-View-ViewModel retrieve data from the model when requested from the view via the Android data binding framework. With this pattern, Activities and Fragments become very lightweight. Moreover, writing unit tests becomes easier because the ViewModels are decoupled from the view.  
+
+    **Clean Architecture**  
+    separates the architecture of app into three major layers:  
+    1. **Presentation Layer**: how the app shows the data to the user, the presentation layer sits as the outermost layer.  
+    2. **Domain**: what are the core functions of the app, the domain layer sits in the middle layer.  
+    3. **Data Layer**: how the data can be accessed. the data layer resides in the inner layer.  
+
+    **MVP**  
+    The Model-View-Presenter architecture comprises:  
+    1. **Model**: the data layer.  
+    2. **View**: the UI layer, displays the data received from Presenter, reacts to the user input. Activities, Fragments and android.view.View are treated as View in the MVP.  
+    3. **Presenter**: responds to the actions performed on the UI layer, performs actions on the Model objects and passes the results back to the Views.  
+
+    >What we want to achieve by using MVP are simpler tasks, smaller objects, and fewer dependencies between Model and Views layers. This, in turns makes our code easier to manage and test.  
+
+    **Differences from MVC**
+    1. View is more separated from Model. The Presenter is a mediator between them.  
+    2. Easier to create unit tests.  
