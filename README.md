@@ -163,3 +163,6 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
         ```  
 
         An interface can extend several interfaces, similar to the way that a class can extend another class, using the `extends` keyword.  
+
+## Structure  
+- [ ] Using Context  
