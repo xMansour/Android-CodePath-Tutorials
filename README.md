@@ -96,12 +96,12 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
 
 - [x] **Beginning Android Resources**  
-    1. **Exceptions**
+    1. **Exceptions**  
         **Flow of code execution**  
         1. **Normal main sequential code execution**, the program doing what it meant to accomplish.  
         2. **Execption handling code execution**, he main program flow was interrupted by an error or some other condition that prevent the continuation of the normal main sequential code execution.  
 
-        **Exception Object**
+        **Exception Object**  
         This is the object that is "thrown" as a parameter from the error, and passed to the catch block. Exception object encapsulates the information about the error's location and its nature. All Exception objects must be inherited from the java.lang.Throwable.
 
     2. **Threads**
