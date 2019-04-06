@@ -51,7 +51,9 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     3. Audio/Video playback  
     4. Socket programming  
 
+
     >Mobile apps conisit of MVC + Networking + Hardware  
+
 
 
 - [x] **Mobile Screen Archetypes**  
@@ -200,7 +202,7 @@ In many cases when the "context is required", we simply need to pass in the inst
 5. **Retrieving a System Service**  
     To send notifications from an application, the NotificationManager system service is required.  
 
-    [list](https://github.com/codepath/android_guides/wiki/Using-Context) of all the available system services that can be retrieved through a context.  
+    [list](https://developer.android.com/reference/android/content/Context.html#getSystemService(java.lang.String)) of all the available system services that can be retrieved through a context.  
 
 6. **Application vs Activity context**  
     There is an **Application** Context and an **Activity** Context, which last for the duration of their respective lifecycle. Most Views should be passed an Activity Context in order to gain access to what themes, styles, dimensions should be applied. If no theme is specified explicitly for the Activity, the default is to use the one specified for the application.  
