@@ -10,9 +10,9 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 - [x] **Architecture of Mobile Apps**  
 
     **There are two categories of mobile apps:**  
-        1. View heavy data driven  
+    1. View heavy data driven  
         ex. email, social, news, Todo  
-        2. Graphics heavy drawing  
+    2. Graphics heavy drawing  
         ex. games and photo editing  
 
     **Screen Archetypes are:**  
