@@ -1,7 +1,7 @@
 # Android CodePath Tutorials  
-Following the tutorials by [CodePath](https://github.com/codepath/android_guides/wiki)
+Following the tutorials by [CodePath](https://github.com/codepath/android_guides/wiki)  
 
---- 
+
 
 ## Getting Started  
 
@@ -166,3 +166,79 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
 ## Structure  
 - [ ] Using Context  
+A context provide access to information about the application state. It provides Activities, Fragments and Services access to resource files, images and extrnal directory locations. It also enables access to Android's built-in services such as those used for layout inflation, keyboard and finding content providers.  
+
+In many cases when the "context is required", we simply need to pass in the instance of the current activity. In situations where we are inside objects created by the activity such as adapters or fragments, we need to pass in the activity instance into those objects. In situations where we are outside of an activity (in an application or service), we can use the "application" context instead.  
+
+**Context Usage**
+1. **Explicitly starting a component**  
+
+    ```java
+    Intent intent = new Intent(context, MyActivity.class);
+    startActivity(intent);
+    ```
+
+    When starting a component two pieces of information are required:
+    1. **package name**, which identifies the application that contains the component.
+    2. **fully qualified java class name** for the component.
+
+    if we are starting an internal component the context could be passed since we could get the package name by `context.getPackageName()`.
+
+2. **Creating a view**  
+    Contexts contains the following information that views require
+    1. device screen size and dimensions for converting dp,sp to pixels  
+    2. styled attributes
+    3. activity reference for onClick attributes  
+
+3. **Inflating an  XML layout file**  
+    We use the context to fetch the `LayoutInflater` in order to inflate an XML layout into memory  
+    
+
+4. **Sending a local broadcast**  
+    We use the context to fetch the `LocalBroadcastManager` when sending out or registering a receiver for a broadcast  
+
+5. **Retrieving a System Service**  
+    To send notifications from an application, the NotificationManager system service is required.  
+
+    [list](https://github.com/codepath/android_guides/wiki/Using-Context) of all the available system services that can be retrieved through a context.  
+
+6. **Application vs Activity context**  
+    There is an **Application** Context and an **Activity** Context, which last for the duration of their respective lifecycle. Most Views should be passed an Activity Context in order to gain access to what themes, styles, dimensions should be applied. If no theme is specified explicitly for the Activity, the default is to use the one specified for the application.  
+
+    In most cases, you should use the Activity Context. Normally, the keyword `this` in Java references the instance of the class and can be used whenever Context is needed inside an Activity.  
+
+7. **Anonymous functions**  
+    When using anonymous functions when implementing listeners, the keyword `this` in Java applies to the most immediate class being declared. In these cases, the outer class `MainActivity` has to be specified to refer to the Activity instance.  
+
+    ```java
+    public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        TextView tvTest = (TextView) findViewById(R.id.abc);
+        tvTest.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  Toast.makeText(MainActivity.this, "hello", Toast.LENGTH_SHORT).show();
+              }
+          });
+        }
+    }
+    }
+    ```
+
+8. **Adapters**
+    1. Array Adapter  
+    2. RecyclerView Adapter  
+
+**Avoiding memory leaks**  
+The Application Context is typically used when singleton instances need to be created, such as a custom manager class that requires Context information to gain access to system services but gets reused across multiple Activities. Since retaining a reference to the Activity context would cause memory not to be reclaimed after it is no longer running, it's important to use the Application Context instead.  
+
+To avoid memory leaks, never hold a reference to a context beyond its lifecycle. Check any of your background threads, pending handlers, or inner classes that may be holding onto context objects as well.  
+
+Use the application context when a context reference is needed beyond the lifespan of a component, or if it should be independent of the lifecycle of the context being passed in.  
+
+
+    
+
