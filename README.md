@@ -31,7 +31,7 @@ Learning to build real data-driven apps requires a few core concepts:
 4. Data: Models, networking and persistence
 5. Platform: OS services, hardware and sensors
 
-
+![alt text](https://github.com/xMansour/Android-CodePath-Tutorials/blob/master/Images/Getting%20Started/mobile%20client%20arch.png "Mobile Client Architecture")
 
 
 
