@@ -104,44 +104,46 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
         **Exception Object**  
         This is the object that is "thrown" as a parameter from the error, and passed to the catch block. Exception object encapsulates the information about the error's location and its nature. All Exception objects must be inherited from the java.lang.Throwable.
 
-    2. **Threads**
+    2. **Threads**  
     A thread is the smallest unit of processing that can be scheduled by an operating system. Therefore, using threads, a programmer can effectively create two or more tasks, that run at the same time.  
 
-    **Runnable**
-    A Runnable process block is a simple class that implements a run() method. Within the run() method is the actual task that needs to be executed by a running thread. By implementing a class with the Runnable interface, we ensure that the class holds a run() method.  
+        **Runnable**
+        A Runnable process block is a simple class that implements a run() method. Within the run() method is the actual task that needs to be executed by a running thread. By implementing a class with the Runnable interface, we ensure that the class holds a run() method.  
 
-    ```java
-    public class RunnableProcess implements Runnable {
-    ...
-    public void run() {
+        ```java
+        public class RunnableProcess implements Runnable {
         ...
-    }
-    }
-    ```
-    **Creating a thread**  
-    
-    ```java
-    Thread thread1 = new Thread(new RunnableProcess(...));
-    ```
+        public void run() {
+            ...
+        }
+        }
+        ```
+        
+        **Creating a thread**  
+        
+        ```java
+        Thread thread1 = new Thread(new RunnableProcess(...));
+        ```
 
-    **Starting a thread**
+        **Starting a thread**
 
-    ```java
-    thread1.start();
-    ```
+        ```java
+        thread1.start();
+        ```
 
-    **Manipulating threads**
-    
-    ```java
-    Thread.currentThread()              //returns the currently executing thread
+        **Manipulating threads**
+        
+        ```java
+        Thread.currentThread()              //returns the currently executing thread
 
-    Thread.sleep(long millis)           //halts the exeuction of the current thread for the given amount of time
+        Thread.sleep(long millis)           //halts the exeuction of the current thread for the given amount of time
 
-    Thread.yield()                      //pauses the execution of the current thread to allow other threads to execute
-    ```
-    **Synchronization**  
-    Synchronization is used when a thread is using a resource, others should wait until the resource has been released.  
+        Thread.yield()                      //pauses the execution of the current thread to allow other threads to execute
+        ```
 
-    To do so, we use the keyword `synchronized` before the block of code we need the access to it to be synchronized.  
+        **Synchronization**  
+        Synchronization is used when a thread is using a resource, others should wait until the resource has been released.  
+
+        To do so, we use the keyword `synchronized` before the block of code we need the access to it to be synchronized.  
 
 
