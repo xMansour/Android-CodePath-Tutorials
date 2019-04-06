@@ -55,5 +55,24 @@ Most mobile apps rely on server-side APIs for data.
 
 
 - [x] **Mobile Screen Archetypes**  
+In mobile application development, mobile apps tend to adhere to a set of standard screen "archetypes" that appear again and again. There are over a dozen screen archetypes but there are six core archetypes that appear in nearly every app:
+
+1. Login/Register - User signs up or logs intro their account
+2. Stream - User can scroll through resources in a list
+3. Details - User can view the specifics of particular resource
+4. Creation - User can create new resource
+5. Profile - User can view their identity and stats
+6. Settings - User can configure app options
+7. Splash Pages - Displayed when the app is loading
+8. Onboarding - First time user visual tutorial for how the app works
+9. Map View - Visualizing location based information
+10. Messaging - Real time chat conversation
+11. Calendar - visualize dates or events into calendar form
+12. Media Players - Allowing the control of media playback
+
+
+
+
+
 
 
