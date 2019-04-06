@@ -5,9 +5,9 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
 ## Getting Started
 
-[x] Installing Genymotion Emulator (Genymotion Guide)
+- [x] Installing Genymotion Emulator (Genymotion Guide)
 
-[x] Architecture of Mobile Apps (Concept Slides)
+- [x] Architecture of Mobile Apps (Concept Slides)
 There are two categories of mobile apps:
 1. View heavy data driven
 ex. email, social, news, Todo
