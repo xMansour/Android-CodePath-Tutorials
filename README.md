@@ -118,7 +118,7 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
         }
         }
         ```
-        
+
         **Creating a thread**  
         
         ```java
@@ -146,4 +146,20 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
         To do so, we use the keyword `synchronized` before the block of code we need the access to it to be synchronized.  
 
+    3. **Interfaces**  
+    An interface is an abstraction of class with no implementation details. **You cannot instantiate an interface**. **An interface is not a class** but it is written the same way. The first difference is that you do not use the `class` keyword but the `interface` keyword to define it. Then, there are fields and methods you cannot define here.  
 
+        A field must be a constant: always `public`, `static` and `final`.  
+
+        A method must be `public` and `abstract`.  
+
+        Constructors are forbidden.  
+
+        ```java
+        public interface SimpleInterface {
+            public static final int CONSTANT1 = 1;
+            public abstract method1(String parameter);
+        }
+        ```  
+
+        An interface can extend several interfaces, similar to the way that a class can extend another class, using the `extends` keyword.  
