@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             //permission isn't granted
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
+                //if the user denied the permission and trying to access it again.
                 //show your ui to tell the user why this is needed
-                /*new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this)
                         .setTitle("Permission Needed")
                         .setMessage("Read Contacts Permission Is Needed To Function Properly")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -37,16 +38,21 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE);
-
-
                             }
-                        }).show();*/
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create().show();
 
-                Log.i(TAG, "requestContactsPermission: executed shouldShowRequestPermissionRationale");
+            } else {
+                //requesting the permission
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE);
+
             }
-
-            Log.i(TAG, "requestContactsPermission: executed requestPermissions()");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE);
         }
     }
 
@@ -55,25 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "onRequestPermissionsResult: granted");
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
             } else {
-                boolean showRelation = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS);    //false if the user checks never ask again
-                if (showRelation) {
-                    //handle degraded mode
-                    //asking again until it is allowed, WTF xD
-                    Log.i(TAG, "onRequestPermissionsResult: executed re-asking");
-                    //ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE);
-
-                } else {
-                    //checked never ask again
-                    Toast.makeText(this, "Permission permanently denied", Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "onRequestPermissionsResult: denied forever");
-                }
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         }
     }
 }
