@@ -368,7 +368,7 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
         float fontSize = getResources().getDimension(R.dimen.font_size);
     ```  
 
-    **Providing Alternate Resources**
+    **Providing Alternate Resources**  
     To specify configuration-specific alternatives for a set of resources, we create a new directory in res in the form of `resource`-`qualifiers`.  
 
     |Configuration|Examples|Description|
@@ -397,7 +397,7 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
     >We can similarly access this within any object by getting access to a Context object: `getContext().getResources().getConfiguration()` to access the configurations.  
 
-    **Alternate Layout Files**
+    **Alternate Layout Files**  
     Often alternative resources are used to specify different layout files for phones and tablets. This can be done using the "smallest width" qualifier of sw.  
 
 
@@ -419,7 +419,7 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     |Lifecycle Method|Description|Common Uses|
     |----------------|-----------|-----------|
     |`onCreate()`|The activity is starting but not visible to the user|Most of the activity initialization code goes here. This is where you setContentView() for the activity, initialize views, set up any adapters, etc.|
-    |`onStart()`|The activity is now visible to the user|This lifecycle method isn't used much, but can come in handy to register a BroadcastReceiver to monitor for changes that impact the UI (since the UI is now visible to the user)|
+    |`onStart()`|The activity is now visible to the user but not ready for user interaction|This lifecycle method isn't used much, but can come in handy to register a BroadcastReceiver to monitor for changes that impact the UI (since the UI is now visible to the user)|
     |`onResume()`|The activity is now in the foreground and ready for user interaction|This is a good place to start animations, open exclusive-access devices like the camera, etc.|
     |`onPause()`|Counterpart to onResume(). The activity is about to go into the background and has stopped interacting with the user. This can happen when another activity is launched in front of the current activity.|t's common to undo anything that was done in onResume() and to save any global state (such as writing to a file).|
     |`onStop()`|Counterpart to onStart(). The activity is no longer visible to the user.|It's common to undo anything that was done in onStart().|
@@ -446,19 +446,3 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     }
     ```  
     
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-
-
