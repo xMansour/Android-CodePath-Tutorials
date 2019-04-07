@@ -643,7 +643,7 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
 
 - [x] **Managing Runtime Permissions with PermissionsDispatcher**  
-    **Usage**
+    **Usage**  
     First you need to add the gradle **dependencies**  
     ```
     dependencies {
@@ -717,6 +717,8 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     2. Global initialization that needs to be shared across all components (crash reporting, persistence).  
     3. Static methods for easy access to static immutable data such as a shared network client object.  
 
+
+
     >If we do want a custom application class, we start by creating a new class which extends `android.app.Application` as follows
 
     ```java
@@ -736,8 +738,8 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
    ...>
    ``` 
 
-   
-    
+
+
 
 
 
