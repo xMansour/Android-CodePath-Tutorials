@@ -641,7 +641,77 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     $adb install -g myAPP.apk                                   //installing an app with all permissions granted
     ```  
 
+
+- [x] **Managing Runtime Permissions with PermissionsDispatcher**  
+    **Usage**
+    First you need to add the gradle **dependencies**  
+    ```
+    dependencies {
+    implementation 'com.github.hotchemi:permissionsdispatcher:4.1.0'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:4.1.0'
+    }
+    ```  
+    Then,  
+    1. Annotate the activity or fragment with `@RuntimePermissions`  
+    ```java
+    @RuntimePermissions
+    public class MainActivity extends AppCompatActivity {
+    // ...
+    }
+    ```  
+    2. Annotate the method that requires the permission with `@NeedsPermission`  
+    ```java
+    @NeedsPermission(Manifest.permission.CALL_PHONE)
+    void callPhone() {
+        // Trigger the calling of a number here
+    }
+    ```  
+    3. Delegate the permissions events to a compiled helper class  
+    ```java
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // NOTE: delegate the permission handling to generated method
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+    ```  
+    4. Invoke the helper class in order to trigger the action with permission request  
+    ```java
+    MainActivityPermissionsDispatcher.callPhoneWithPermissionCheck(this);
+    ```  
+
+    **Permission Event Handling**  
+    We can also optionally configure the rationale dialog, handle the denial of a permission or manage when the user requests never to be asked again:  
+
+    ```java
+    // Annotate a method which explains why the permission/s is/are needed. 
+    // It passes in a `PermissionRequest` object which can continue or abort the current permission
+    @OnShowRationale(Manifest.permission.CALL_PHONE)
+    void showRationaleForPhoneCall(PermissionRequest request) {
+        new AlertDialog.Builder(this)
+            .setMessage(R.string.permission_phone_rationale)
+            .setPositiveButton(R.string.button_allow, (dialog, button) -> request.proceed())
+            .setNegativeButton(R.string.button_deny, (dialog, button) -> request.cancel())
+            .show();
+    }
+
+    // Annotate a method which is invoked if the user doesn't grant the permissions
+    @OnPermissionDenied(Manifest.permission.CALL_PHONE)
+    void showDeniedForPhoneCall() {
+        Toast.makeText(this, R.string.permission_call_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    // Annotates a method which is invoked if the user 
+    // chose to have the device "never ask again" about a permission
+    @OnNeverAskAgain(Manifest.permission.CALL_PHONE)
+    void showNeverAskForPhoneCall() {
+        Toast.makeText(this, R.string.permission_call_neverask, Toast.LENGTH_SHORT).show();
+    }
+    ```  
     
+
+
+
 
 
 
