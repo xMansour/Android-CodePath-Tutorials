@@ -532,7 +532,124 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     <!-- ... -->
     </activity>
     ```  
+
+- [x] **Understanding App Permissions**  
+    Before Marshmallow permissions were granted at install time, now permissions are granted at run time.  
+
+    [This](https://developer.android.com/guide/topics/permissions/overview#normal_permissions) is a list of permissions and their category.  
+
+    >Normal Permissions must be added to the AndroidManifest:  
+    ```
+        <uses-permission android:name="android.permission.INTERNET" />
+    ```  
+
+    **Runtime Permissions**
+    If the permission you need to add isn't listed under the normal permissions, you'll need to deal with "Runtime Permissions".  
+
+    The first step when adding a "Runtime Permission" is to add it to the AndroidManifest:  
+
+    ```
+        <uses-permission android:name="android.permission.READ_CONTACTS" />
+    ```  
+    Next, you'll need to initiate the permission request and handle the result.  
+
+    ```java
+        private static final int READ_CONTACTS_PERMISSIONS_REQUEST = 1;
+
+        public void getPermissionToReadUserContacts() {
+        // 1) Use the support library version ContextCompat.checkSelfPermission(...) to avoid
+        // checking the build version since Context.checkSelfPermission(...) is only available
+        // in Marshmallow
+        // 2) Always check for permission (even if permission has already been granted)
+        // since the user can revoke permissions at any time through Settings
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // The permission is NOT already granted.
+            // Check if the user has been asked about this permission already and denied
+            // it. If so, we want to give more explanation about why the permission is needed.
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.READ_CONTACTS)) {
+                // Show our own UI to explain to the user why we need to read the contacts
+                // before actually requesting the permission and showing the default UI
+            }
+
+            // Fire off an async request to actually get the permission
+            // This will show the standard permission request dialog UI
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
+                    READ_CONTACTS_PERMISSIONS_REQUEST);
+        }
+    }
+
+    // Callback with the request from calling requestPermissions(...)
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        // Make sure it's our original READ_CONTACTS request
+        if (requestCode == READ_CONTACTS_PERMISSIONS_REQUEST) {
+            if (grantResults.length == 1 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Read Contacts permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                // showRationale = false if user clicks Never Ask Again, otherwise true
+                boolean showRationale = shouldShowRequestPermissionRationale( this, Manifest.permission.READ_CONTACTS);
+
+                if (showRationale) {
+                   // do something here to handle degraded mode
+                } else {
+                   Toast.makeText(this, "Read Contacts permission denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+    ```  
+
+    **Permission Groups**  
+    ![alt text](https://github.com/xMansour/Android-CodePath-Tutorials/blob/master/Images/Structure/permissions.png "Aksing for permissions patterns")  
+
+    1. **Pattern 1: educate up-front**  
+        For **critical** and **unclear** permissions, you should use a warm welcome screen to explain why these permissions are needed before asking for them.  
     
+    2. **Pattern 2: ask up-front**  
+        For **critical** and **clear** permissions, they are expected by the users without explanation.  
+
+    3. **Pattern 3: ask in context**  
+        For **secondary** and **clear** permissions, you should ask for them when a feature needs them.  
+    
+    4. **Pattern 4: educate in context**  
+        For **secondary** and **unclear** permissions, you should explain that using `shouldShowRequestPermissionRational`.  
+
+    **Storage permissions**  
+    Rethink about whether you need read/write storage permissions (i.e. `android.permission.WRITE_EXTERNAL_STORAGE` or `android.permission.READ_EXTERNAL_STORAGE`), which give you all files on the SD card. Instead, you should use methods on Context to access package-specific directories on external storage. Your app always have access to read/write to these directories,so there is no need to permissions to request it:  
+
+    ```java
+    File dir = MyActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+    ```  
+
+    **Managing Permissions using ADB**  
+    ```
+    $ adb shell pm list permissions -d -g                       //shows all permissions
+
+    $adb shell pm grant com.PackageName.enterprise some.permission.NAME                                        //grant all permissions
+
+
+    $adb shell pm revoke com.PackageName.enterprise android.permission.READ_CONTACTS                            //revoke all permissions
+
+    $adb install -g myAPP.apk                                   //installing an app with all permissions granted
+    ```  
+
+    
+
+
+
+    
+
+
+
+
 
 
 
