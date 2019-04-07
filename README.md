@@ -445,4 +445,102 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     super.onPause();
     }
     ```  
+
+- [x] **Handling Configuration Changes**  
+    There are various situations such as when the screen orientation is rotated where the Activity can actually be destroyed and removed from memory and then re-created from scratch again. In these situations, the best practice is to prepare for cases where the Activity is re-created by properly saving and restoring the state.  
+
+
+    **Saving and Restoring Activity State Using Shared Preferences**  
+
+    Saving the data in the onPause():  
+    ```java
+    @Override
+    protected void onPause() {
+      SharedPreferences settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+      SharedPreferences.Editor editor = settings.edit();
+      editor.putInt(SOME_VALUE, someIntValue);
+      editor.putString(SOME_OTHER_VALUE, someStringValue);
+
+      editor.apply();
+    }
+    ```  
+    Restore the data in the onResume():  
+    ```java
+    @Override
+    public void onResume() {
+      SharedPreferences settings = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+      someIntValue = settings.getInt(SOME_VALUE, 0);
+    }
+    ```  
+
+    **Saving and Restoring Activity State Using savedInstanceState**  
+    You need to override the method `onSaveInstanceState(Bundle savedInstanceState)` and store the data within it.
+
+    ```java
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save custom values into the bundle
+        savedInstanceState.putInt(SOME_VALUE, someIntValue);
+        savedInstanceState.putString(SOME_OTHER_VALUE, someStringValue);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    ```  
+
+    The system will call that method before an Activity is destroyed. Then later the system will call `onRestoreInstanceState` where we can restore state from the bundle:  
+
+    ```java
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+      // Always call the superclass so it can restore the view hierarchy
+      super.onRestoreInstanceState(savedInstanceState);
+      // Restore state members from saved instance
+      someIntValue = savedInstanceState.getInt(SOME_VALUE);
+      someStringValue = savedInstanceState.getString(SOME_OTHER_VALUE);
+    }
+    ```  
+
+    **Saving and Restoring Fragment State**  
+    Fragments also have a `onSaveInstanceState()` method which is called when their state needs to be saved:  
+    ```java
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(SOME_VALUE_KEY, someStateValue);
+        super.onSaveInstanceState(outState);
+    }
+    ```  
+    Then we can pull data out of this saved state in onCreateView:  
+    ```java
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.my_simple_fragment, container, false);
+        if (savedInstanceState != null) {
+            someStateValue = savedInstanceState.getInt(SOME_VALUE_KEY);
+            // Do something with value if needed
+        }
+        return view;
+    }
+    ```  
+    **Locking Screen Orientation**
+    If you want to lock the screen orientation change of any screen (activity) of your android application you just need to set the `android:screenOrientation` property of an `<activity>` within the `AndroidManifest.xml`:  
+
+    ```
+    <activity
+    android:name="com.techblogon.screenorientationexample.MainActivity"
+    android:screenOrientation="portrait"
+    android:label="@string/app_name" >
+    <!-- ... -->
+    </activity>
+    ```  
     
+
+
+
+
+
+
+
+
+
+
+
