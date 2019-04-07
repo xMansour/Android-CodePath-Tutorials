@@ -295,3 +295,120 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
     **Differences from MVC**
     1. View is more separated from Model. The Presenter is a mediator between them.  
     2. Easier to create unit tests.  
+
+
+- [x] **Understanding App Resources**  
+    Resources are used for anything from defining colors, images, layouts, menus, and string values. The value of this is that nothing is hardcoded. Everything is defined in these resource files and then can be referenced within your application's code.  
+
+    |Name|Folder|Description|
+    |----|------|-----------|
+    |Propery Animations|animator|XML files that define propery animations|
+    |Tween Animations|anim|XML files that define tween animations|
+    |Drawables|drawable|Bitmap files or XML files that act as graphics|
+    |Layout|layout|XML files that define a user interface layout|
+    |Menu|menu|XML files that define menues or action bar items|
+    |Values|values|XML files with values such as strings, integers and colors|
+
+
+    |Name|File|Description|
+    |----|------|-----------|
+    |Colors|`res/values/colors.xml`|For color definitions such as text color|
+    |Dimensions|`res/values/dimens.xml`|For dimension values such as padding|
+    |Strings|`res/values/strings.xml`|For string values such as text or a title|
+    |Styles|`res/values/styles.xml`|For style values|
+
+    **Defining a String Resource**
+    ```
+    <resources>
+        <string name="submit_label">Submit</string>
+    </resources>
+    ```
+
+    **Referencing a String Resource**  
+    From XMl:  
+        `android:text="@string/submit_label"`
+
+    Form Java Code:  
+    ```java
+    String submitText = getResources().getString(R.string.submit_label);  
+    ```  
+    
+    **Defining Color Resources**
+    ```
+    <resources>
+        <color name="white">#FFFFFF</color>
+    </resources>
+    ```
+    **Referencing a Color Resource**  
+    From XMl:  
+    `android:textColor="@color/white"`
+
+    Form Java Code:  
+    ```java
+        int color = getResources().getString(R.string.submit_label);        //deprecated
+
+        int color = ContextCompat.getColor(context, R.color.white); 
+    ```  
+
+    >It is important to note that the most current way of accessing color resources (since API 24) requires providing context in order to resolve any custom theme attributes.  
+
+    **Defining Dimension Resources**  
+    ```
+    <resources>
+    <dimen name="textview_height">25dp</dimen>
+    <dimen name="font_size">16sp</dimen>
+    </resources>
+    ```  
+    **Referencing a Color Resource**  
+    From XMl:  
+    `android:textSize="@dimen/font_size"`
+
+    Form Java Code:  
+    ```java
+        float fontSize = getResources().getDimension(R.dimen.font_size);
+    ```  
+
+    **Providing Alternate Resources**
+    To specify configuration-specific alternatives for a set of resources, we create a new directory in res in the form of `resource`-`qualifiers`.  
+
+    |Configuration|Examples|Description|
+    |----|------|-----------|
+    |Language|`en`, `fr`|Language code selected on the device|
+    |Screen size|`sw480dp`, `sw600dp`|Minimum width of the screen's height or width|
+    |Screen orientation|`port`, `land`|Screen is in portrait or landscape mode|
+    |Screen density|`hdpi`, `xhdpi`|Screen density used for alternate images|
+    |Platform version|`v7`, `v11`, `v21`|Platform version often used for styles|  
+
+    >You can specify multiple qualifiers for a single set of resources, separated by dashes. For example, `drawable-en-sw600dp-land` applies to English tablets in landscape orientation.  
+
+    **Determining Configuration at Runtime**  
+    ```java
+    String image;
+    int orientation = getResources().getConfiguration().orientation;
+    if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+    image = "image_portrait.png";
+    // ...
+    } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+    image = "image_landscape.png";
+    // ...
+    }
+
+    ```  
+
+    >We can similarly access this within any object by getting access to a Context object: `getContext().getResources().getConfiguration()` to access the configurations.  
+
+    **Alternate Layout Files**
+    Often alternative resources are used to specify different layout files for phones and tablets. This can be done using the "smallest width" qualifier of sw.  
+
+
+
+
+
+
+
+
+
+    
+    
+
+
