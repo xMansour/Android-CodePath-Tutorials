@@ -708,7 +708,37 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
         Toast.makeText(this, R.string.permission_call_neverask, Toast.LENGTH_SHORT).show();
     }
     ```  
+
+- [x] **Understanding the Android Application Class**  
+    The `Application` class in Android is the base class within an Android app that contains all other components such as activities and services. The `Application` class, or any subclass of the `Application` class, is instantiated before any other class when the process for your application/package is created. This class is primarily used for initialization of global state before the first Activity is displayed.  
+
+    **Uses of a custom application class**  
+    1. Specialized tasks that need to run before the creation of your first activity.  
+    2. Global initialization that needs to be shared across all components (crash reporting, persistence).  
+    3. Static methods for easy access to static immutable data such as a shared network client object.  
+
+    >If we do want a custom application class, we start by creating a new class which extends `android.app.Application` as follows
+
+    ```java
+    public class MyCustomApplication extends Application {
+        ...
+    }
+    ```  
+
+
+    >And specify the `android:name` property in the the `<application>` node in `AndroidManifest.xml`:  
+
+    ```
+    <application 
+    android:name=".MyCustomApplication"
+    android:icon="@drawable/icon" 
+    android:label="@string/app_name" 
+   ...>
+   ``` 
+
+   
     
+
 
 
 
