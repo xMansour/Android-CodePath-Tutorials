@@ -734,26 +734,142 @@ Following the tutorials by [CodePath](https://github.com/codepath/android_guides
 
 
 
+## Fragments
+- [] **Creating and using fragments**  
+
+- [x] **Tabs with TabLayout**  
+    Simply add `android.support.design.widget.TabLayout`, which will be used for rendering the different tab options. The `android.support.v4.view.ViewPager` component will be used to page between the various fragments we will create.  
+    ```
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="fixed" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white" />
+
+    </LinearLayout>
+    ```  
+    **Create Fragments**  
+    Both the XML and the controller must be implemented.  
+    **Implement FragmentPagerAdapter**  
+    The next thing to do is to implement the adapter for your `ViewPager` which controls the order of the tabs, the titles and their associated content. The most important methods to implement here are `getPageTitle(int position)` which is used to get the title for each tab and `getItem(int position)` which determines the fragment for each tab.  
+
+    ```java
+    public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+        final int PAGE_COUNT = 3;
+        private String tabTitles[] = new String[] { "Tab1", "Tab2", "Tab3" };
+        private Context context;
+
+        public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
+            super(fm);
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return PAGE_COUNT;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return PageFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            // Generate title based on item position
+            return tabTitles[position];
+        }
+    }
+    ```  
+    **Finally, we need to attach our ViewPager to the SampleFragmentPagerAdapter and then configure the sliding tabs with a two step process:**  
+    1. In the `onCreate()` method of your activity, find the `ViewPager` and connect the adapter.  
+    2. Set the `ViewPager` on the `TabLayout` to connect the pager with the tabs.  
+
+    ```java
+    public class MainActivity extends AppCompatActivity {
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            // Get the ViewPager and set it's PagerAdapter so that it can display items
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(), 
+                MainActivity.this));
+
+            // Give the TabLayout the ViewPager
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+            tabLayout.setupWithViewPager(viewPager);
+        }
+
+    }
+    ```  
+
+    **Configuring the TabLayout: Attributes**  
+    1. `tabBackground` background applied to all the tabs.
+    2. `tabIndicatorColor` color of the tab indicator line.
+    3. `tabIndicatorHeight` height of the tab indicatior line.
+    4. `tabMode` fixed for small number of tabs or scrollable for scrolling list.
+    5. `tabTextColor` the color of the text on the tab.
+
+    **Normally, the tab indicator color chosen is the accent color. We can override this color by defining a custom style in styles.xml and then applying the style to your TabLayout**  
+
+    ```
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+    <item name="tabIndicatorColor">#0000FF</item>
+    </style>
+    ```  
+    And override the style of the tabLayout.  
 
 
+    **Add Icons to TabLayout**  
+    Inside your `FragmentPagerAdapter`, you can delete the `getPageTitle()` line or simply return null:  
+    ```java
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return null;
+    }
+    ```  
+    After you setup your `TabLayout`, you can use the `getTabAt()` function to set the icon:  
+    ```java
+    // setup TabLayout first
+    // configure icons
+    private int[] imageResId = {
+            R.drawable.ic_one,
+            R.drawable.ic_two,
+            R.drawable.ic_three };
 
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    for (int i = 0; i < imageResId.length; i++) {
+        tabLayout.getTabAt(i).setIcon(imageResId[i]);
+    }
+    ```  
+    **Add Icons+Text to TabLayout**  
+    Another approach is to use `SpannableString` to add icons and text to TabLayout:  
+    ```java
+    @Override
+    public CharSequence getPageTitle(int position) {
+        // Generate title based on item position
+        Drawable image = context.getResources().getDrawable(imageResId[position]);
+        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+        // Replace blank spaces with image icon
+        SpannableString sb = new SpannableString("   " + tabTitles[position]);
+        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return sb;
+    }
+    ```  
+    By default, the tab created by `TabLayout` sets the `textAllCaps` property to be true, which prevents ImageSpans from being rendered.  
